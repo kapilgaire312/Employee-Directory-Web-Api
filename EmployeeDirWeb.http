@@ -1,0 +1,12 @@
+@EmployeeDirWeb_HostAddress = http://localhost:5264
+
+GET {{EmployeeDirWeb_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{EmployeeDirWeb_HostAddress}}/weatherforecast/
+Content-Type: application/json
+
+1
+
