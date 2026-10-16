@@ -17,7 +17,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost("add")]
-    public ActionResult<AddEmployeeResponse> AddEmployee([FromBody] AddEmployeeRequest employee)
+    public ActionResult<EmployeeResponse> AddEmployee([FromBody] AddEmployeeRequest employee)
     {
         Console.WriteLine(employee.Salary);
         Console.WriteLine(employee.HiredDate);
@@ -38,19 +38,37 @@ public class EmployeesController : ControllerBase
             dateHired
         );
 
+        //TODO: later implement a exception handler middleware to handle exceptions there instead of controllers.
         try
         {
             var newEmployee = _employeeDirectory.AddEmployee(employeeToAdd);
 
-            return new AddEmployeeResponse(
-                newEmployee.Id,
-                newEmployee.Name,
-                newEmployee.Department
-            );
+            return new EmployeeResponse(newEmployee.Id, newEmployee.Name, newEmployee.Department);
         }
         catch (EmployeeAlreadyExistsException ex)
         {
             return Conflict(ex.Message);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<EmployeeResponse> GetEmployeeById([FromRoute] string id)
+    {
+        try
+        {
+            var employee = _employeeDirectory.GetEmployeeUsingId(id);
+
+            var foundEmployee = new EmployeeResponse(
+                employee.Id,
+                employee.Name,
+                employee.Department
+            );
+
+            return foundEmployee;
+        }
+        catch (EmployeeNotFoundException ex)
+        {
+            return NotFound(ex.Message);
         }
     }
 

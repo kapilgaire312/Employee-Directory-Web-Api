@@ -37,6 +37,18 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         return newEmployee;
     }
 
+    public EmployeeInfo GetEmployeeUsingId(string id)
+    {
+        var employee = _employeesList.Find(e => e.Id == id);
+
+        if (employee is null)
+        {
+            throw new EmployeeNotFoundException($"Employee with id {id} doesn't exist.");
+        }
+
+        return employee;
+    }
+
     public IReadOnlyCollection<EmployeeInfo> ListEmployee()
     {
         return _employeesList.AsReadOnly();

@@ -5,6 +5,8 @@ public interface IEmployeeDirectory
 {
     EmployeeInfo AddEmployee(AddEmployeeCommand employeeToAdd);
 
+    public EmployeeInfo GetEmployeeUsingId(string id);
+
     IReadOnlyCollection<EmployeeInfo> ListEmployee();
 
     (bool, EmployeeInfo?, string?) SearchEmployee(string? id);
