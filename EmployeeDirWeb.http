@@ -20,6 +20,14 @@ Content-Type : application/json
 ###
 GET {{EmployeeDirWeb_HostAddress}}/api/employees/1
 
+
+###
+GET {{EmployeeDirWeb_HostAddress}}/api/employees
+
+###
+
+DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/delete/1
+
 ###
 POST {{EmployeeDirWeb_HostAddress}}/weatherforecast/
 Content-Type: application/json

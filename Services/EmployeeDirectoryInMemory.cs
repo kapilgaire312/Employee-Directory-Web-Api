@@ -54,25 +54,16 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         return _employeesList.AsReadOnly();
     }
 
-    public (bool, EmployeeInfo?, string?) RemoveEmployee(string? id)
+    public bool RemoveEmployee(string? id)
     {
-        if (String.IsNullOrWhiteSpace(id))
-        {
-            return (false, null, "Enter a valid employee id to remove.");
-        }
+        var employee = _employeesList.FirstOrDefault(e => e.Id == id);
 
-        //the list should be iterated backward for removing on the same list
-        //but since we only remove one item. it wont break.
-        for (int i = 0; i < _employeesList.Count; i++)
+        if (employee is null)
         {
-            if (_employeesList[i].Id == id)
-            {
-                EmployeeInfo removedEmployee = _employeesList[i];
-                _employeesList.RemoveAt(i);
-                return (true, removedEmployee, null);
-            }
+            return false;
         }
-        throw new Exception($"Employee with id {id} not found.");
+        _employeesList.Remove(employee);
+        return true;
     }
 
     public (bool, EmployeeInfo?, string?) SearchEmployee(string? id)

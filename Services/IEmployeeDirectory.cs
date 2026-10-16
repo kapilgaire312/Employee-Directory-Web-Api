@@ -11,5 +11,5 @@ public interface IEmployeeDirectory
 
     (bool, EmployeeInfo?, string?) SearchEmployee(string? id);
 
-    (bool, EmployeeInfo?, string?) RemoveEmployee(string? id);
+    bool RemoveEmployee(string? id);
 }

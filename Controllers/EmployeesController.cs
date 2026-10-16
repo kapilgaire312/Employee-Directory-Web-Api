@@ -86,4 +86,21 @@ public class EmployeesController : ControllerBase
             .ToList();
         return employeeListToReturn;
     }
+
+    [HttpDelete("delete/{id}")]
+    public IActionResult DeleteEmployee(string id)
+    {
+        if (String.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest("Employee id is required.");
+        }
+
+        bool employeeExist = _employeeDirectory.RemoveEmployee(id);
+
+        if (employeeExist)
+        {
+            return NoContent();
+        }
+        return NotFound();
+    }
 }
