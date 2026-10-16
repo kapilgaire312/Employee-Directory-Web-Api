@@ -1,14 +1,9 @@
+using EmployeeDirWeb.Dtos;
 using EmployeeDirWeb.Models;
 
 public interface IEmployeeDirectory
 {
-    (bool, string) AddEmployee(
-        string? id,
-        string? name,
-        string? department,
-        decimal? salary,
-        DateOnly hiredDate
-    );
+    (bool, string) AddEmployee(AddEmployeeCommand employeeToAdd);
 
     IReadOnlyCollection<EmployeeInfo> ListEmployee();
 

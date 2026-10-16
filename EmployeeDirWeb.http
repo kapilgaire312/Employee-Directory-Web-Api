@@ -1,12 +1,24 @@
 @EmployeeDirWeb_HostAddress = http://localhost:5264
 
-GET {{EmployeeDirWeb_HostAddress}}/weatherforecast/
-Accept: application/json
+###
+GET {{EmployeeDirWeb_HostAddress}}/api/employees
+
 
 ###
+POST {{EmployeeDirWeb_HostAddress}}/api/employees/add
+Content-Type : application/json
 
+{
+  "id" : "1",
+  "name" : "Kap",
+  "department" : "ITHO",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+
+}
+
+###
 POST {{EmployeeDirWeb_HostAddress}}/weatherforecast/
 Content-Type: application/json
-
 1
 
