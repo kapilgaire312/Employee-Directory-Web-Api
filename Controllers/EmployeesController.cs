@@ -16,7 +16,7 @@ public class EmployeesController : ControllerBase
         _employeeDirectory = employeeDirectory;
     }
 
-    [HttpPost("add")]
+    [HttpPost("add")] // POST /api/employees/add
     public ActionResult<EmployeeResponse> AddEmployee([FromBody] AddEmployeeRequest employee)
     {
         Console.WriteLine(employee.Salary);
@@ -51,9 +51,13 @@ public class EmployeesController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}")] //GET /api/employees/id
     public ActionResult<EmployeeResponse> GetEmployeeById([FromRoute] string id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest("Employee ID is required.");
+        }
         try
         {
             var employee = _employeeDirectory.GetEmployeeUsingId(id);
@@ -72,9 +76,14 @@ public class EmployeesController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public IActionResult CheckHealth()
+    [HttpGet()] // GET /api/employees
+    public ActionResult<List<EmployeeResponse>> ListAllEmployees()
     {
-        return Ok();
+        var employees = _employeeDirectory.ListEmployee();
+
+        List<EmployeeResponse> employeeListToReturn = employees
+            .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))
+            .ToList();
+        return employeeListToReturn;
     }
 }
