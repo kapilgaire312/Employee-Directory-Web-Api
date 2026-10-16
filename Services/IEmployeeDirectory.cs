@@ -3,7 +3,7 @@ using EmployeeDirWeb.Models;
 
 public interface IEmployeeDirectory
 {
-    (bool, string) AddEmployee(AddEmployeeCommand employeeToAdd);
+    EmployeeInfo AddEmployee(AddEmployeeCommand employeeToAdd);
 
     IReadOnlyCollection<EmployeeInfo> ListEmployee();
 

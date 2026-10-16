@@ -1,4 +1,5 @@
 using EmployeeDirWeb.Dtos;
+using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
 
 class EmployeeDirectoryInMemory : IEmployeeDirectory
@@ -10,14 +11,16 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         _employeesList = new();
     }
 
-    public (bool, string) AddEmployee(AddEmployeeCommand employeeToAdd)
+    public EmployeeInfo AddEmployee(AddEmployeeCommand employeeToAdd)
     {
         //check id to ensure it is unique
         foreach (var employeeInfo in _employeesList)
         {
             if (employeeInfo.Id == employeeToAdd.Id)
             {
-                return (false, $"Employee with {employeeToAdd.Id} already exists.");
+                throw new EmployeeAlreadyExistsException(
+                    $"Employee with {employeeToAdd.Id} already exists."
+                );
             }
         }
 
@@ -31,7 +34,7 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
 
         _employeesList.Add(newEmployee);
 
-        return (true, $"Employee with id {employeeToAdd.Id} was added successfully.");
+        return newEmployee;
     }
 
     public IReadOnlyCollection<EmployeeInfo> ListEmployee()

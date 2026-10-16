@@ -1,5 +1,6 @@
 using EmployeeDirWeb.Dtos;
 using EmployeeDirWeb.Dtos.Api;
+using EmployeeDirWeb.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeDirWeb.Controllers;
@@ -37,13 +38,20 @@ public class EmployeesController : ControllerBase
             dateHired
         );
 
-        _employeeDirectory.AddEmployee(employeeToAdd);
+        try
+        {
+            var newEmployee = _employeeDirectory.AddEmployee(employeeToAdd);
 
-        return new AddEmployeeResponse(
-            employeeToAdd.Id,
-            employeeToAdd.Name,
-            employeeToAdd.Department
-        );
+            return new AddEmployeeResponse(
+                newEmployee.Id,
+                newEmployee.Name,
+                newEmployee.Department
+            );
+        }
+        catch (EmployeeAlreadyExistsException ex)
+        {
+            return Conflict(ex.Message);
+        }
     }
 
     [HttpGet]
