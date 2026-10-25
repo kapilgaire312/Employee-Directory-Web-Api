@@ -66,6 +66,32 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         return true;
     }
 
+    public EmployeeInfo EditEmployee(string id, AddEmployeeCommand employeeData)
+    {
+        EmployeeInfo? employee = _employeesList.FirstOrDefault(e => e.Id == id);
+
+        if (employee is null)
+        {
+            throw new EmployeeNotFoundException($"Employee with id {id} not found.");
+        }
+
+        EmployeeInfo employeeToAdd = new(
+            employeeData.Id,
+            employeeData.Name,
+            employeeData.Department,
+            employeeData.Salary,
+            employeeData.HiredDate
+        );
+
+        //Remove existing employee
+        _employeesList.Remove(employee);
+
+        //Add employee with updated data
+        _employeesList.Add(employeeToAdd);
+
+        return employeeToAdd;
+    }
+
     public (bool, EmployeeInfo?, string?) SearchEmployee(string? id)
     {
         if (String.IsNullOrWhiteSpace(id))

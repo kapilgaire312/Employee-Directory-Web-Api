@@ -12,4 +12,6 @@ public interface IEmployeeDirectory
     (bool, EmployeeInfo?, string?) SearchEmployee(string? id);
 
     bool RemoveEmployee(string? id);
+
+    public EmployeeInfo EditEmployee(string id, AddEmployeeCommand employeeData);
 }
