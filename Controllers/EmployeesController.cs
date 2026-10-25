@@ -1,6 +1,7 @@
 using EmployeeDirWeb.Dtos;
 using EmployeeDirWeb.Dtos.Api;
 using EmployeeDirWeb.Exceptions;
+using EmployeeDirWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeDirWeb.Controllers;
@@ -43,7 +44,17 @@ public class EmployeesController : ControllerBase
         {
             var newEmployee = _employeeDirectory.AddEmployee(employeeToAdd);
 
-            return new EmployeeResponse(newEmployee.Id, newEmployee.Name, newEmployee.Department);
+            var addedEmployee = new EmployeeResponse(
+                newEmployee.Id,
+                newEmployee.Name,
+                newEmployee.Department
+            );
+
+            return CreatedAtAction(
+                nameof(GetEmployeeById),
+                new { id = employee.Id },
+                addedEmployee
+            );
         }
         catch (EmployeeAlreadyExistsException ex)
         {
@@ -129,6 +140,21 @@ public class EmployeesController : ControllerBase
             dateHired
         );
 
-        return Created();
+        try
+        {
+            EmployeeInfo updatedEmployee = _employeeDirectory.EditEmployee(id, employeeToEdit);
+
+            var employeeResponse = new EmployeeResponse(
+                updatedEmployee.Id,
+                updatedEmployee.Name,
+                updatedEmployee.Department
+            );
+
+            return Ok(employeeResponse);
+        }
+        catch (EmployeeNotFoundException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
