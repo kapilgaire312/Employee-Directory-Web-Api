@@ -18,7 +18,7 @@ Content-Type : application/json
 }
 
 ###
-GET {{EmployeeDirWeb_HostAddress}}/api/employees/1
+GET {{EmployeeDirWeb_HostAddress}}/api/employees/   
 
 
 ###
@@ -29,7 +29,16 @@ GET {{EmployeeDirWeb_HostAddress}}/api/employees
 DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/delete/1
 
 ###
-POST {{EmployeeDirWeb_HostAddress}}/weatherforecast/
-Content-Type: application/json
-1
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/edit/2
+Content-Type : application/json
+
+{
+  "id" : "1",
+  "name" : "Rap",
+  "department" : "CSHo",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+
+}
+
 
