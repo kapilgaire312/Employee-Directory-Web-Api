@@ -58,6 +58,7 @@ public class EmployeesController : ControllerBase
         {
             return BadRequest("Employee ID is required.");
         }
+        Console.WriteLine("id is", id);
         try
         {
             var employee = _employeeDirectory.GetEmployeeUsingId(id);
@@ -87,7 +88,7 @@ public class EmployeesController : ControllerBase
         return employeeListToReturn;
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("delete/{id}")] //DELETE /api/employees/delete/id
     public IActionResult DeleteEmployee(string id)
     {
         if (String.IsNullOrWhiteSpace(id))
@@ -102,5 +103,32 @@ public class EmployeesController : ControllerBase
             return NoContent();
         }
         return NotFound();
+    }
+
+    [HttpPut("edit/{id}")] //PUT /api/employees/edit/id
+    public IActionResult EditEmployee(
+        [FromRoute] string id,
+        [FromBody] EditEmployeeRequest employee
+    )
+    {
+        if (String.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest("Employee Id is required.");
+        }
+
+        if (employee.Salary is not decimal esalary || employee.HiredDate is not DateOnly dateHired)
+        {
+            return NotFound();
+        }
+
+        AddEmployeeCommand employeeToEdit = new AddEmployeeCommand(
+            id,
+            employee.Name,
+            employee.Department,
+            esalary,
+            dateHired
+        );
+
+        return Created();
     }
 }
