@@ -88,18 +88,6 @@ public class EmployeesController : ControllerBase
         }
     }
 
-    //
-    // [HttpGet()] // GET /api/employees
-    // public ActionResult<List<EmployeeResponse>> ListAllEmployees()
-    // {
-    //     var employees = _employeeDirectory.ListEmployee();
-    //
-    //     List<EmployeeResponse> employeeListToReturn = employees
-    //         .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))
-    //         .ToList();
-    //     return employeeListToReturn;
-    // }
-    //
     [HttpDelete("delete/{id}")] //DELETE /api/employees/delete/id
     public IActionResult DeleteEmployee(string id)
     {

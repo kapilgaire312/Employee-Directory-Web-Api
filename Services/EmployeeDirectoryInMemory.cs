@@ -50,11 +50,6 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         return employee;
     }
 
-    public IReadOnlyCollection<EmployeeInfo> ListEmployee()
-    {
-        return _employeesList.AsReadOnly();
-    }
-
     public bool RemoveEmployee(string? id)
     {
         var employee = _employeesList.FirstOrDefault(e => e.Id == id);

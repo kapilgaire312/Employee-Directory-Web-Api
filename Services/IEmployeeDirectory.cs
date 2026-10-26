@@ -7,8 +7,6 @@ public interface IEmployeeDirectory
 
     public EmployeeInfo GetEmployeeUsingId(string id);
 
-    IReadOnlyCollection<EmployeeInfo> ListEmployee();
-
     public List<EmployeeInfo> SearchEmployees(string? name, string? department);
 
     bool RemoveEmployee(string? id);
