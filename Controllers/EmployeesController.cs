@@ -88,17 +88,18 @@ public class EmployeesController : ControllerBase
         }
     }
 
-    [HttpGet()] // GET /api/employees
-    public ActionResult<List<EmployeeResponse>> ListAllEmployees()
-    {
-        var employees = _employeeDirectory.ListEmployee();
-
-        List<EmployeeResponse> employeeListToReturn = employees
-            .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))
-            .ToList();
-        return employeeListToReturn;
-    }
-
+    //
+    // [HttpGet()] // GET /api/employees
+    // public ActionResult<List<EmployeeResponse>> ListAllEmployees()
+    // {
+    //     var employees = _employeeDirectory.ListEmployee();
+    //
+    //     List<EmployeeResponse> employeeListToReturn = employees
+    //         .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))
+    //         .ToList();
+    //     return employeeListToReturn;
+    // }
+    //
     [HttpDelete("delete/{id}")] //DELETE /api/employees/delete/id
     public IActionResult DeleteEmployee(string id)
     {
@@ -156,5 +157,17 @@ public class EmployeesController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    [HttpGet()] //GET: /api/employees?name=kap&department=it
+    public IActionResult SearchEmployees([FromQuery] string? name, [FromQuery] string? department)
+    {
+        List<EmployeeInfo> foundEmployees = _employeeDirectory.SearchEmployees(name, department);
+
+        List<EmployeeResponse> employeesListToSend = foundEmployees
+            .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))
+            .ToList();
+
+        return Ok(employeesListToSend);
     }
 }

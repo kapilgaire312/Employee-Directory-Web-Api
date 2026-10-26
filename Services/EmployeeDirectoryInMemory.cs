@@ -1,4 +1,5 @@
 using EmployeeDirWeb.Dtos;
+using EmployeeDirWeb.Dtos.Api;
 using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
 
@@ -92,21 +93,20 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         return employeeToAdd;
     }
 
-    public (bool, EmployeeInfo?, string?) SearchEmployee(string? id)
+    public List<EmployeeInfo> SearchEmployees(string? name, string? department)
     {
-        if (String.IsNullOrWhiteSpace(id))
-        {
-            return (false, null, "Enter a valid Id.");
-        }
+        Console.WriteLine(name);
+        Console.WriteLine(department);
 
-        foreach (var employeeInfo in _employeesList)
-        {
-            if (employeeInfo.Id == id)
-            {
-                return (true, employeeInfo, null);
-            }
-        }
+        string nameInLowercase = name?.ToLower() ?? string.Empty;
+        string departmentInLowercase = department?.ToLower() ?? string.Empty;
+        List<EmployeeInfo> foundEmployees = _employeesList
+            .Where(e =>
+                e.Name.ToLower().Contains(nameInLowercase)
+                && e.Department.ToLower().Contains(departmentInLowercase)
+            )
+            .ToList();
 
-        throw new Exception($"Employee with id {id} not found.");
+        return foundEmployees;
     }
 }

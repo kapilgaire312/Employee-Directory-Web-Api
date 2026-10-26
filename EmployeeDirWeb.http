@@ -29,16 +29,17 @@ GET {{EmployeeDirWeb_HostAddress}}/api/employees
 DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/delete/1
 
 ###
-PUT {{EmployeeDirWeb_HostAddress}}/api/employees/edit/2
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/edit/1
 Content-Type : application/json
 
 {
-  "id" : "1",
-  "name" : "Rap",
+  "name" : "Rop",
   "department" : "CSHo",
   "salary": 2000,
   "hiredDate": "2020-10-10"
 
 }
+###
 
 
+GET {{EmployeeDirWeb_HostAddress}}/api/employees?name=kap&department=i

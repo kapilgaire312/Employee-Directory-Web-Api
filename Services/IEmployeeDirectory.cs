@@ -9,7 +9,7 @@ public interface IEmployeeDirectory
 
     IReadOnlyCollection<EmployeeInfo> ListEmployee();
 
-    (bool, EmployeeInfo?, string?) SearchEmployee(string? id);
+    public List<EmployeeInfo> SearchEmployees(string? name, string? department);
 
     bool RemoveEmployee(string? id);
 
