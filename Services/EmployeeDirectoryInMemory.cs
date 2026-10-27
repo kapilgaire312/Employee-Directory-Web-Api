@@ -93,12 +93,10 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
         Console.WriteLine(name);
         Console.WriteLine(department);
 
-        string nameInLowercase = name?.ToLower() ?? string.Empty;
-        string departmentInLowercase = department?.ToLower() ?? string.Empty;
         List<EmployeeInfo> foundEmployees = _employeesList
             .Where(e =>
-                e.Name.ToLower().Contains(nameInLowercase)
-                && e.Department.ToLower().Contains(departmentInLowercase)
+                e.Name.Contains(name ?? "", StringComparison.OrdinalIgnoreCase)
+                && e.Department.Contains(department ?? "", StringComparison.OrdinalIgnoreCase)
             )
             .ToList();
 
