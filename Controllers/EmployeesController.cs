@@ -17,26 +17,20 @@ public class EmployeesController : ControllerBase
         _employeeDirectory = employeeDirectory;
     }
 
-    [HttpPost("add")] // POST /api/employees/add
+    [HttpPost()] // POST /api/employees
     public ActionResult<EmployeeResponse> AddEmployee([FromBody] AddEmployeeRequest employee)
     {
-        Console.WriteLine(employee.Salary);
-        Console.WriteLine(employee.HiredDate);
-
         // here we need to perform this check because salary is deciaml? and HiredDate is DateOnly?
         // this is to remove compiler error as we know that these value are validated already with [Required] attribute
-
-        if (employee.Salary is not decimal esalary || employee.HiredDate is not DateOnly dateHired)
-        {
-            return NotFound();
-        }
+        //
+        // the check was removed and null forgiving operator was used as we know the null values are already filtered wit [Required]
 
         AddEmployeeCommand employeeToAdd = new(
             employee.Id,
             employee.Name,
             employee.Department,
-            esalary,
-            dateHired
+            (decimal)employee.Salary!,
+            (DateOnly)employee.HiredDate!
         );
 
         //TODO: later implement a exception handler middleware to handle exceptions there instead of controllers.
@@ -69,7 +63,6 @@ public class EmployeesController : ControllerBase
         {
             return BadRequest("Employee ID is required.");
         }
-        Console.WriteLine("id is", id);
         try
         {
             var employee = _employeeDirectory.GetEmployeeUsingId(id);
@@ -88,7 +81,7 @@ public class EmployeesController : ControllerBase
         }
     }
 
-    [HttpDelete("delete/{id}")] //DELETE /api/employees/delete/id
+    [HttpDelete("{id}")] //DELETE /api/employees/id
     public IActionResult DeleteEmployee(string id)
     {
         if (String.IsNullOrWhiteSpace(id))
@@ -105,7 +98,7 @@ public class EmployeesController : ControllerBase
         return NotFound();
     }
 
-    [HttpPut("edit/{id}")] //PUT /api/employees/edit/id
+    [HttpPut("{id}")] //PUT /api/employees/id
     public IActionResult EditEmployee(
         [FromRoute] string id,
         [FromBody] EditEmployeeRequest employee
@@ -116,17 +109,12 @@ public class EmployeesController : ControllerBase
             return BadRequest("Employee Id is required.");
         }
 
-        if (employee.Salary is not decimal esalary || employee.HiredDate is not DateOnly dateHired)
-        {
-            return NotFound();
-        }
-
         AddEmployeeCommand employeeToEdit = new AddEmployeeCommand(
             id,
             employee.Name,
             employee.Department,
-            esalary,
-            dateHired
+            (decimal)employee.Salary!,
+            (DateOnly)employee.HiredDate!
         );
 
         try
@@ -143,7 +131,7 @@ public class EmployeesController : ControllerBase
         }
         catch (EmployeeNotFoundException ex)
         {
-            return BadRequest(ex.Message);
+            return NotFound(ex.Message);
         }
     }
 
