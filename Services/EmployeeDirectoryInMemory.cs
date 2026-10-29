@@ -64,9 +64,11 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
 
     public EmployeeInfo EditEmployee(string id, AddEmployeeCommand employeeData)
     {
-        EmployeeInfo? employee = _employeesList.FirstOrDefault(e => e.Id == id);
+        // find index of employee in the directory
+        int index = _employeesList.FindIndex(e => e.Id == id);
 
-        if (employee is null)
+        //if no emloyee is found
+        if (index == -1)
         {
             throw new EmployeeNotFoundException($"Employee with id {id} not found.");
         }
@@ -79,20 +81,14 @@ class EmployeeDirectoryInMemory : IEmployeeDirectory
             employeeData.HiredDate
         );
 
-        //Remove existing employee
-        _employeesList.Remove(employee);
-
-        //Add employee with updated data
-        _employeesList.Add(employeeToAdd);
+        //Replace the old employee data with new
+        _employeesList[index] = employeeToAdd;
 
         return employeeToAdd;
     }
 
     public List<EmployeeInfo> SearchEmployees(string? name, string? department)
     {
-        Console.WriteLine(name);
-        Console.WriteLine(department);
-
         List<EmployeeInfo> foundEmployees = _employeesList
             .Where(e =>
                 e.Name.Contains(name ?? "", StringComparison.OrdinalIgnoreCase)
