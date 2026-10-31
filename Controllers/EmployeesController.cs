@@ -8,17 +8,13 @@ namespace EmployeeDirWeb.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class EmployeesController : ControllerBase
+public class EmployeesController(IEmployeeService employeeService) : ControllerBase
 {
-    private readonly IEmployeeDirectory _employeeDirectory;
-
-    public EmployeesController(IEmployeeDirectory employeeDirectory)
-    {
-        _employeeDirectory = employeeDirectory;
-    }
-
     [HttpPost()] // POST /api/employees
-    public ActionResult<EmployeeResponse> AddEmployee([FromBody] AddEmployeeRequest employee)
+    public async Task<ActionResult<EmployeeResponse>> AddEmployee(
+        [FromBody] AddEmployeeRequest employee,
+        CancellationToken ct
+    )
     {
         // here we need to perform this check because salary is deciaml? and HiredDate is DateOnly?
         // this is to remove compiler error as we know that these value are validated already with [Required] attribute
@@ -36,7 +32,7 @@ public class EmployeesController : ControllerBase
         //TODO: later implement a exception handler middleware to handle exceptions there instead of controllers.
         try
         {
-            var newEmployee = _employeeDirectory.AddEmployee(employeeToAdd);
+            var newEmployee = await employeeService.AddEmployeeAsync(employeeToAdd, ct);
 
             var addedEmployee = new EmployeeResponse(
                 newEmployee.Id,
@@ -57,7 +53,10 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet("{id}")] //GET /api/employees/id
-    public ActionResult<EmployeeResponse> GetEmployeeById([FromRoute] string id)
+    public async Task<ActionResult<EmployeeResponse>> GetEmployeeById(
+        [FromRoute] string id,
+        CancellationToken ct
+    )
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -65,7 +64,7 @@ public class EmployeesController : ControllerBase
         }
         try
         {
-            var employee = _employeeDirectory.GetEmployeeUsingId(id);
+            var employee = await employeeService.GetEmployeeByIdAsync(id, ct);
 
             var foundEmployee = new EmployeeResponse(
                 employee.Id,
@@ -82,26 +81,23 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpDelete("{id}")] //DELETE /api/employees/id
-    public IActionResult DeleteEmployee(string id)
+    public async Task<IActionResult> DeleteEmployee(string id, CancellationToken ct)
     {
         if (String.IsNullOrWhiteSpace(id))
         {
             return BadRequest("Employee id is required.");
         }
 
-        bool employeeExist = _employeeDirectory.RemoveEmployee(id);
+        await employeeService.RemoveEmployeeAsync(id, ct);
 
-        if (employeeExist)
-        {
-            return NoContent();
-        }
-        return NotFound();
+        return NoContent();
     }
 
     [HttpPut("{id}")] //PUT /api/employees/id
-    public IActionResult EditEmployee(
+    public async Task<IActionResult> EditEmployee(
         [FromRoute] string id,
-        [FromBody] EditEmployeeRequest employee
+        [FromBody] EditEmployeeRequest employee,
+        CancellationToken ct
     )
     {
         if (String.IsNullOrWhiteSpace(id))
@@ -119,7 +115,11 @@ public class EmployeesController : ControllerBase
 
         try
         {
-            EmployeeInfo updatedEmployee = _employeeDirectory.EditEmployee(id, employeeToEdit);
+            EmployeeInfo updatedEmployee = await employeeService.EditEmployeeAsync(
+                id,
+                employeeToEdit,
+                ct
+            );
 
             var employeeResponse = new EmployeeResponse(
                 updatedEmployee.Id,
@@ -136,9 +136,13 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet()] //GET: /api/employees?name=kap&department=it
-    public IActionResult SearchEmployees([FromQuery] string? name, [FromQuery] string? department)
+    public async Task<IActionResult> SearchEmployees(
+        [FromQuery] string? name,
+        [FromQuery] string? department,
+        CancellationToken ct
+    )
     {
-        List<EmployeeInfo> foundEmployees = _employeeDirectory.SearchEmployees(name, department);
+        var foundEmployees = await employeeService.SearchEmployeesAsync(name, department, ct);
 
         List<EmployeeResponse> employeesListToSend = foundEmployees
             .Select(e => new EmployeeResponse(e.Id, e.Name, e.Department))

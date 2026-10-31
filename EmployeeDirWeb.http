@@ -5,7 +5,7 @@ GET {{EmployeeDirWeb_HostAddress}}/api/employees
 
 
 ###
-POST {{EmployeeDirWeb_HostAddress}}/api/employees/add
+POST {{EmployeeDirWeb_HostAddress}}/api/employees/
 Content-Type : application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type : application/json
 }
 
 ###
-GET {{EmployeeDirWeb_HostAddress}}/api/employees/   
+GET {{EmployeeDirWeb_HostAddress}}/api/employees/ 
 
 
 ###
@@ -26,10 +26,10 @@ GET {{EmployeeDirWeb_HostAddress}}/api/employees
 
 ###
 
-DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/delete/1
+DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/1
 
 ###
-PUT {{EmployeeDirWeb_HostAddress}}/api/employees/edit/1
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/1
 Content-Type : application/json
 
 {

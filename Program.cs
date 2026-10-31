@@ -1,3 +1,5 @@
+using EmployeeDirWeb.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,7 +12,11 @@ builder.Services.AddOpenApi();
 //required by exception handling middleware to generate error response
 builder.Services.AddProblemDetails();
 
+builder.Services.AddSingleton<List<EmployeeInfo>>();
+
 builder.Services.AddSingleton<IEmployeeDirectory, EmployeeDirectoryInMemory>();
+
+builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
