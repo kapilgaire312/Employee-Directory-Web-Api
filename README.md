@@ -3,7 +3,7 @@
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-blue?logo=dotnet)](https://learn.microsoft.com/aspnet/core)
 [![C#](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
-
+  *
 A clean, asynchronous RESTful Web API for managing employee records, built with **ASP.NET Core** and **C# / .NET 10**. Designed with clean architecture principles, strict DTO contract isolation, robust data validation, and non-blocking asynchronous operations.
 
 ---
@@ -11,7 +11,7 @@ A clean, asynchronous RESTful Web API for managing employee records, built with 
 ## 📌 Features
 
 - **Full Employee Lifecycle (CRUD)**: Create, retrieve, update, delete, and search employee records.
-- **Advanced Multi-Criteria Search**: Case-insensitive substring filtering by employee name and department.
+- **Advanced Multi-Criteria Search**: Case-insensitive substring filtering by employee name and department.*
 - **Clean 3-Tier Layered Architecture**: Strict separation of concerns between Controllers, Services, Repositories, and Domain Models.
 - **DTO Contract Isolation**: Domain entities are never exposed to HTTP consumers; sensitive business attributes (e.g., salary details) are encapsulated.
 - **Strict Defensive Validation**: Model validation using `DataAnnotations` (`[Required]`, `[Length]`, `[Range]`) paired with nullable value types to prevent missing JSON keys from silently adopting zero-value defaults.
@@ -32,7 +32,7 @@ flowchart LR
     Controller --> Dto["DTO Layer\n(Input Validation & Contract Isolation)"]
     Controller --> Service["EmployeeService\n(Business Logic & Validation)"]
     Service --> Repo["IEmployeeDirectory\n(Data Access Abstraction)"]
-    Repo --> Storage["EmployeeDirectoryInMemory\n(Thread-Safe In-Memory Store)"]
+    Repo --> Storage["EmployeeDirectoryInMemory\n(In-Memory Store)"]
     Storage --> Domain["EmployeeInfo\n(Domain Model & Invariants)"]
 ```
 

@@ -1,5 +1,5 @@
-using EmployeeDirWeb.Dtos;
-using EmployeeDirWeb.Dtos.Api;
+namespace EmployeeDirWeb.Repositories;
+
 using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
 

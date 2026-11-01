@@ -1,3 +1,5 @@
+namespace EmployeeDirWeb.Repositories;
+
 using EmployeeDirWeb.Models;
 
 public interface IEmployeeDirectory

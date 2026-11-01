@@ -1,6 +1,7 @@
 using EmployeeDirWeb.Dtos;
 using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
+using EmployeeDirWeb.Repositories;
 
 public class EmployeeService(IEmployeeDirectory employeeDirectory) : IEmployeeService
 {

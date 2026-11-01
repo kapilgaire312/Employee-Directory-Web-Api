@@ -1,4 +1,7 @@
+using EmployeeDirWeb.Data;
 using EmployeeDirWeb.Models;
+using EmployeeDirWeb.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,11 @@ builder.Services.AddOpenApi();
 
 //required by exception handling middleware to generate error response
 builder.Services.AddProblemDetails();
+
+//Add database context for dependency injection
+builder.Services.AddDbContext<EmployeeDirectoryContext>(options =>
+    options.UseNpgsql(builder.Configuration["DB_CONN_STRING"])
+);
 
 builder.Services.AddSingleton<List<EmployeeInfo>>();
 
