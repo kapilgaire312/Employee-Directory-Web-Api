@@ -22,9 +22,13 @@ builder.Services.AddDbContext<EmployeeDirectoryContext>(options =>
 
 builder.Services.AddSingleton<List<EmployeeInfo>>();
 
-builder.Services.AddSingleton<IEmployeeDirectory, EmployeeDirectoryInMemory>();
+// Inject the InMemory dependency to use in memory
+// builder.Services.AddSingleton<IEmployeeDirectory, EmployeeDirectoryInMemory>();
 
-builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+//inject the EmployeeDirectoryDb to use postgres database
+builder.Services.AddScoped<IEmployeeDirectory, EmployeeDirectoryDb>();
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
