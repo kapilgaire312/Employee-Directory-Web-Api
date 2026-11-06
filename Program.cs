@@ -1,4 +1,5 @@
 using EmployeeDirWeb.Data;
+using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
 using EmployeeDirWeb.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,9 @@ builder.Services.AddOpenApi();
 
 //required by exception handling middleware to generate error response
 builder.Services.AddProblemDetails();
+
+//add the global exceoption handlers as DI
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 //Add database context for dependency injection
 builder.Services.AddDbContext<EmployeeDirectoryContext>(options =>
@@ -32,7 +36,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
-//will send the exception as proper response instead of showing stack trace to user.
+//will send the excepstatus tion as proper response instead of showing stack trace to user.
 app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
