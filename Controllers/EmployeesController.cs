@@ -34,11 +34,8 @@ public class EmployeesController(IEmployeeService employeeService) : ControllerB
         {
             var newEmployee = await employeeService.AddEmployeeAsync(employeeToAdd, ct);
 
-            var addedEmployee = new EmployeeResponse(
-                newEmployee.Id,
-                newEmployee.Name,
-                newEmployee.Department
-            );
+            //using extension mehtod to create response
+            var addedEmployee = newEmployee.ToResponse();
 
             return CreatedAtAction(
                 nameof(GetEmployeeById),
@@ -121,12 +118,8 @@ public class EmployeesController(IEmployeeService employeeService) : ControllerB
                 ct
             );
 
-            var employeeResponse = new EmployeeResponse(
-                updatedEmployee.Id,
-                updatedEmployee.Name,
-                updatedEmployee.Department
-            );
-
+            // using the extension method to create the employee response instead of manaully creating the object.
+            var employeeResponse = updatedEmployee.ToResponse();
             return Ok(employeeResponse);
         }
         catch (EmployeeNotFoundException ex)
