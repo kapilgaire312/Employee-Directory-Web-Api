@@ -8,7 +8,7 @@
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-Documented-green?logo=openapi-initiative&logoColor=white)](https://learn.microsoft.com/aspnet/core/fundamentals/openapi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A production-ready, asynchronous RESTful Web API for managing employee records, built with **ASP.NET Core**, **C# / .NET 10**, **Entity Framework Core**, and **PostgreSQL**. Designed with clean 3-tier architecture, swappable data-access implementations, strict DTO contract isolation, defensive validation, and end-to-end asynchronous cancellation support.
+A asynchronous RESTful Web API for managing employee records, built with **ASP.NET Core**, **C# / .NET 10**, **Entity Framework Core**, and **PostgreSQL**. Designed with clean 3-tier architecture, swappable data-access implementations, strict DTO contract isolation, defensive validation, and end-to-end asynchronous cancellation support.
 
 ---
 
