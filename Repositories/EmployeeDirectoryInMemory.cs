@@ -66,7 +66,6 @@ class EmployeeDirectoryInMemory(List<EmployeeInfo> employeesList) : IEmployeeDir
         if (index == -1)
         {
             return null;
-            throw new EmployeeNotFoundException($"Employee with id {id} not found.");
         }
 
         EmployeeInfo employeeToAdd = new(

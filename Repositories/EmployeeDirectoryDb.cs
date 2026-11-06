@@ -1,8 +1,10 @@
 namespace EmployeeDirWeb.Repositories;
 
 using EmployeeDirWeb.Data;
+using EmployeeDirWeb.Exceptions;
 using EmployeeDirWeb.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 public class EmployeeDirectoryDb(EmployeeDirectoryContext dbContext) : IEmployeeDirectory
 {
@@ -12,8 +14,19 @@ public class EmployeeDirectoryDb(EmployeeDirectoryContext dbContext) : IEmployee
     )
     {
         dbContext.EmployeeInfos.Add(employeeToAdd);
-        await dbContext.SaveChangesAsync(ct);
-
+        try
+        {
+            await dbContext.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException ex)
+        {
+            if (ex.GetBaseException() is PostgresException pgEx && pgEx.SqlState == "23505")
+            {
+                throw new EmployeeAlreadyExistsException(
+                    $"Employee with id {employeeToAdd.Id} already exists."
+                );
+            }
+        }
         return employeeToAdd;
     }
 
