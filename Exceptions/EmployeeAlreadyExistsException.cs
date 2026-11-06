@@ -1,7 +1,3 @@
 namespace EmployeeDirWeb.Exceptions;
 
-class EmployeeAlreadyExistsException : Exception
-{
-    public EmployeeAlreadyExistsException(string message)
-        : base(message) { }
-}
+class EmployeeAlreadyExistsException(string message) : Exception(message) { }

@@ -1,7 +1,3 @@
 namespace EmployeeDirWeb.Exceptions;
 
-class EmployeeNotFoundException : Exception
-{
-    public EmployeeNotFoundException(string message)
-        : base(message) { }
-}
+class EmployeeNotFoundException(string message) : Exception(message) { }
