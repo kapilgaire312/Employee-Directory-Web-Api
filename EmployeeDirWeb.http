@@ -1,45 +1,163 @@
 @EmployeeDirWeb_HostAddress = http://localhost:5264
 
 ###
+
+### GET all employees
 GET {{EmployeeDirWeb_HostAddress}}/api/employees
 
-
 ###
-POST {{EmployeeDirWeb_HostAddress}}/api/employees/
-Content-Type : application/json
+
+### POST - create employee
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
 
 {
-  "id" : "1",
-  "name" : "Kap",
-  "department" : "ITHO",
+  "id": "1",
+  "name": "Kap",
+  "department": "ITHO",
   "salary": 2000,
   "hiredDate": "2020-10-10"
-
 }
 
 ###
-GET {{EmployeeDirWeb_HostAddress}}/api/employees/ 
 
-
-###
-GET {{EmployeeDirWeb_HostAddress}}/api/employees
+### GET employee by id
+GET {{EmployeeDirWeb_HostAddress}}/api/employees/1
 
 ###
 
+### GET - nonexistent id
+GET {{EmployeeDirWeb_HostAddress}}/api/employees/999
+
+###
+
+### POST - duplicate id
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "id": "1",
+  "name": "Duplicate",
+  "department": "CSITIT",
+  "salary": 3000,
+  "hiredDate": "2024-01-01"
+}
+
+###
+
+### POST - malformed JSON
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "Broken",
+  "department": "CSIT",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+  // missing closing brace
+
+###
+
+### POST - missing required field
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "Missing Department",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+}
+
+###
+
+### POST - invalid data type
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "id": "3",
+  "name": "Invalid Salary",
+  "department": "CSIT",
+  "salary": "not-a-number",
+  "hiredDate": "2020-10-10"
+}
+
+###
+
+### POST - invalid date
+POST {{EmployeeDirWeb_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "id": "4",
+  "name": "Invalid Date",
+  "department": "CSIT",
+  "salary": 2000,
+  "hiredDate": "not-a-date"
+}
+
+###
+
+### PUT - update existing employee
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/1
+Content-Type: application/json
+
+{
+  "name": "Rop",
+  "department": "CSITHo",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+}
+
+###
+
+### PUT - nonexistent id
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/999
+Content-Type: application/json
+
+{
+  "name": "Nobody",
+  "department": "CSIT",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+}
+
+###
+
+### PUT - malformed JSON
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/1
+Content-Type: application/json
+
+{
+  "name": "Broken",
+  "department": "CSIT",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+
+###
+
+### PUT - missing required field
+PUT {{EmployeeDirWeb_HostAddress}}/api/employees/1
+Content-Type: application/json
+
+{
+  "name": "Missing Department",
+  "salary": 2000,
+  "hiredDate": "2020-10-10"
+}
+
+###
+
+### DELETE - existing employee
 DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/1
 
 ###
-PUT {{EmployeeDirWeb_HostAddress}}/api/employees/1
-Content-Type : application/json
 
-{
-  "name" : "Rop",
-  "department" : "CSHo",
-  "salary": 2000,
-  "hiredDate": "2020-10-10"
+### DELETE - nonexistent id
+DELETE {{EmployeeDirWeb_HostAddress}}/api/employees/999
 
-}
 ###
 
 
-GET {{EmployeeDirWeb_HostAddress}}/api/employees?name=kap&department=i
